@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>bar</title>
+<script type="text/javascript" src="js/echarts.min.js"></script>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+</head>
+<body>
+<h1>2017年3月与2018年8月同期红提葡萄平均价走势对比图(单位：元/斤)</h1>
+
+
+<div id="main" style="width: 600px; height: 600px"></div>
+
+<script type="text/javascript">
+	var mychart = echarts.init(document.getElementById('main'));
+	var option = {
+		title:{
+			text:'平均价格走势对比图'
+		},
+		tooltip: {
+			 trigger: 'axis'
+		},
+        legend: {
+            data:['2017年','2018年']
+        },
+		xAxis:{
+			type: 'category',
+			boundaryGap: false,
+			data:[]
+		},
+		yAxis:{
+			type: 'value'
+		},
+		series:[{
+			name:'2017年',
+			type:'line',
+			data:[]
+		},
+		{
+			name:'2018年',
+			type:'line',
+			data:[]
+		},]
+	};
+	
+	//初始化图表配置
+	mychart.setOption(option);
+	//数据加载提示打开
+	mychart.showLoading();
+	
+	//定义3个数组
+	var avgs2017 = [];
+	var avgs2018 = [];
+	var days = [];
+	
+	//发送ajax请求
+	$.ajax({
+		type:"post",
+		url:"getAvg.do",
+		data:{"month": 8},
+		dataType:"json",
+		success:function(result){
+			//判断返回结果是否为空
+			if(result){
+				//遍历json数组
+				for(var i=0; i<2; i++){
+					for(var j=0; j<result[i].length; j++){
+						if(i==0){
+							avgs2017.push(result[i][j]);				
+						}else{
+							avgs2018.push(result[i][j]);				
+						}
+					}
+				}
+				
+				for(var i=0; i<result[0].length; i++){
+					days.push(i);
+				}
+				
+				//隐藏加载动画
+				mychart.hideLoading();
+				
+				//把获取到的数据设定给图表对象
+				mychart.setOption({
+					xAxis:{
+						data:days
+					},
+					series:[{
+						name:'2017年',
+						type:'line',
+						data:avgs2017
+					},
+					{
+						name:'2018年',
+						type:'line',
+						data:avgs2018
+					},]
+					
+				})
+			}
+		},
+		error:function(errorMsg){
+			alert("请求图表数据失败！");
+			alert(errorMsg);
+			//隐藏加载动画
+			mychart.hideLoading();
+		}
+	
+	})
+	
+
+</script>
+</body>
+</html>
