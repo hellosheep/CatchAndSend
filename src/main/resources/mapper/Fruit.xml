@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.offcn.dao.FruitDao">
+    <insert id="save" parameterType="com.offcn.po.Fruit">
+        insert into fruit(name, minprice, avgprice, maxprice, category, unit, dateofissue) values(#{name}, #{minprice}, #{avgprice}, #{maxprice}, #{category}, #{unit}, #{dateofissue} )
+    </insert>
+    
+    <select id="getAvgAsYM" resultType="Double">
+    	SELECT avgprice FROM fruit WHERE YEAR(dateofissue)=#{0} AND MONTH(dateofissue)=#{1}
+    </select>
+    
+    <delete id="deleteAll">
+		DELETE FROM fruit;
+    </delete>
+    
+    <select id="getFruitByDate" resultType="com.offcn.po.Fruit" >
+    	SELECT * FROM fruit WHERE dateofissue = #{date}
+    </select>
+</mapper>
