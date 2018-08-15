@@ -35,8 +35,15 @@ public class FruitController {
 		System.out.println("测试代码冲突");
 	}
 	
+
 	public void demo2(){
 		System.out.println("测试代码冲突 user2");
 	}
+
+
+	public void demo(){
+		System.out.println("测试代码冲突 user1");
+	}
+	
 
 }
