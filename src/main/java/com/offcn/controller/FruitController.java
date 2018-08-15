@@ -31,4 +31,8 @@ public class FruitController {
 		return list;
 	}
 	
+	public void test(){
+		System.out.println("测试代码冲突");
+	}
+	
 }
