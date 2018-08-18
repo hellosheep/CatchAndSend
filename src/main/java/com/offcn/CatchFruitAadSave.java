@@ -40,7 +40,7 @@ public class CatchFruitAadSave {
 	JavaMailSenderImpl mailSender;
 	
 	//定时执行方法
-	@Scheduled(cron="0/30 * * * * ?")
+	@Scheduled(cron="0 0 0 * * ?")
 	public  void start() throws Exception{
 		//clearDB();
 		System.out.println("开始抓取");
